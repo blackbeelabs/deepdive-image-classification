@@ -1,0 +1,17 @@
+# MNIST (Image multi-classification)
+name: image_classification
+experiment: baseline
+params: 
+    common:
+        input_dim: 784
+        hidden_dim: 512
+        freeze_embeddings: false
+    train:
+        batch_size: 64
+        shuffle: true
+        epochs: 3
+        learning_rate: 0.0025
+        momentum: 0.9
+    validate:
+        batch_size: 16
+        shuffle: false

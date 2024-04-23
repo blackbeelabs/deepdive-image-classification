@@ -10,9 +10,9 @@ def _get_project_dir_folder():
 def main():
     ASSETS_FP = path.join(_get_project_dir_folder(), "assets")
     print(ASSETS_FP)
-    train_fp = path.join(ASSETS_FP, "train")
+    train_fp = path.join(ASSETS_FP, "datasets", "train")
     print(train_fp)
-    validation_fp = path.join(ASSETS_FP, "validation")
+    validation_fp = path.join(ASSETS_FP, "datasets", "validation")
     print(validation_fp)
 
     transform = transforms.Compose(
