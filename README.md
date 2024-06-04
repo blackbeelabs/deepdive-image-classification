@@ -10,7 +10,7 @@ The workflow contains a couple of steps:
 3. Evaluation of a model
 
 ## Setup environment
-Initialise your Python environment. I use `pyenv` / `virtualenv`, and 3.11.1
+Initialise your Python environment. I use `pyenv` / `virtualenv`, and 3.10.13
 ```
 make setup
 ```
