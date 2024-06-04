@@ -1,3 +1,4 @@
+import argparse
 from torchvision import datasets, transforms
 import json
 from os import path
@@ -8,22 +9,24 @@ from torch.utils.data import DataLoader
 from ruamel.yaml import YAML
 import pendulum
 
-from model.model import *
+from src.model.model import *
 
 yaml = YAML()
 
 
 def _get_project_dir_folder():
-    return path.dirname(path.dirname(path.dirname(__file__)))
+    project_root = path.dirname(path.dirname(path.dirname(__file__)))
+    print(f"project_root={project_root}")
+    return project_root
 
 
-def _construct_report(config, now, model, result_dict):
+def _construct_report(config, experiment_timestamp, result_dict):
 
     report = {}
     report["name"] = config["name"]
     expt = config["experiment"]
     report["expriment"] = expt
-    report["time_start"] = now.to_datetime_string()
+    report["time_start"] = experiment_timestamp
     report = report | config["params"]["common"]
     report = report | config["params"]["validate"]
 
@@ -80,22 +83,21 @@ def _read_val():
     return val
 
 
-def main():
-    now = pendulum.now()
+def main(
+    experiment_timestamp,
+    workflow="model",
+    experiment="baseline",
+):
     torch.manual_seed(42)
     device = get_device()
 
     ASSETS_FP = path.join(_get_project_dir_folder(), "assets")
 
-    experiment_mode = "model"
-    experiment = "baseline"
-    experiment_timestamp = "20240423T232211"
-
     config_baseline_fp = path.join(ASSETS_FP, "config", f"config-{experiment}.yaml")
     model_fp = path.join(
         ASSETS_FP,
         "models",
-        f"{experiment_mode}-{experiment}-{experiment_timestamp}.pkl",
+        f"{workflow}-{experiment}-{experiment_timestamp}.pkl",
     )
 
     results_json_fp = path.join(
@@ -150,11 +152,14 @@ def main():
             else:
                 result_dict[res] = 1
 
-    j = _construct_report(config, now, model, result_dict)
+    j = _construct_report(config, experiment_timestamp, result_dict)
     with open(results_json_fp, "w") as f:
         json.dump(j, f, ensure_ascii=False, indent=4)
     print(f"Done. Wrote results to {results_json_fp}")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", type=str, required=True)
+    args = parser.parse_args()
+    main(experiment_timestamp=args.t)

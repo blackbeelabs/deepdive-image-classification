@@ -8,3 +8,6 @@
 *.DS_Store
 *.json
 !requirements*.txt
+.python-version
+*.gz
+*-ubyte

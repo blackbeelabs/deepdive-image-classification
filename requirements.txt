@@ -10,11 +10,12 @@ networkx==3.2.1
 numpy==1.26.4
 pandas==2.2.0
 pendulum==3.0.0
+pyarrow==14.0.0
 pillow==10.3.0
 python-dateutil==2.9.0.post0
 pytz==2024.1
 requests==2.31.0
-ruamel.yaml==0.17.0
+ruamel.yaml==0.18.2
 six==1.16.0
 sympy==1.12
 time-machine==2.14.0
